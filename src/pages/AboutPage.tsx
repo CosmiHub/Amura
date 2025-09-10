@@ -22,9 +22,9 @@ type TeamMember = {
 // Core team data
 const coreTeam: TeamMember[] = [
   {
-    name: "Rahul Sharma",
-    role: "President",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&h=800",
+    name: "Prarthana Nagraj",
+    role: "Head",
+    image: "/assets/prarthana.jpg",
     department: "Computer Science & Engineering",
     bio: "Rahul leads the AMURA technical club with a vision to create a vibrant tech community. He specializes in AI and has worked on several research projects.",
     skills: ["AI/ML", "Leadership", "Project Management", "Python"],
@@ -37,7 +37,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Priya Singh",
     role: "Vice President",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=800&h=800",
+    image: "/assets/namrita.jpg",
     department: "Information Technology",
     bio: "Priya oversees event coordination and member development. She's passionate about web technologies and has led multiple hackathons.",
     skills: ["Frontend Development", "Event Management", "JavaScript", "React"],
@@ -48,9 +48,9 @@ const coreTeam: TeamMember[] = [
     }
   },
   {
-    name: "Ajay Kumar",
+    name: "Sumit Raj",
     role: "Technical Lead",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=800&h=800",
+    image: "/assets/sumit.jpg",
     department: "Computer Science & Engineering",
     bio: "Ajay manages the technical aspects of all club projects. He's an experienced full-stack developer with expertise in cloud architecture.",
     skills: ["Full Stack", "Cloud Computing", "DevOps", "Java"],
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="w-full h-full object-cover"
+                    className="w-fit h-fit object-cover"
                   />
                 </div>
                 <CardContent className="pt-6">

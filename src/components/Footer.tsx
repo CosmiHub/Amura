@@ -65,7 +65,7 @@ export function Footer() {
               <li className="flex items-start">
                 <MapPin size={18} className="mr-2 text-amura-purple flex-shrink-0 mt-1" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  123 University Campus, Tech Building, Floor 2
+                  RNS Institute of Technology, Channasandra, Bengaluru - 560098
                 </span>
               </li>
               <li className="flex items-center">

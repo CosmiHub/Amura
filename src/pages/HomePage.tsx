@@ -2,6 +2,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { SplineScene } from "@/components/ui/splite";
 
 export default function HomePage() {
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function HomePage() {
                 Where innovation meets community. Join us in exploring the frontiers of technology through workshops, projects, and collaborative learning.
               </p>
               <div className="pt-4">
-                <Link to="/register" className="inline-flex items-center btn-primary">
+                <Link to="/events" className="inline-flex items-center btn-primary">
                   Join Now <ArrowRight className="ml-2" size={20} />
                 </Link>
               </div>
@@ -33,7 +34,18 @@ export default function HomePage() {
                 alt="Tech innovation" 
                 className="rounded-lg shadow-lg max-h-[400px] object-cover animate-fade-in"
               />
+              {/* <SplineScene 
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w-full h-full   animate-fade-in"
+          /> */}
+             
             </div>
+             {/* <div className="flex-1 relative">
+          <SplineScene 
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w- h-screen max-h-[500px] mx-auto object-cover animate-fade-in"
+          />
+        </div> */}
           </div>
         </div>
       </section>
