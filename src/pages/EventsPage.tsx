@@ -6,16 +6,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Mock data for events
 const upcomingEvents = [
-  {
-    id: 1,
-    title: "Web Development Workshop",
-    date: "April 25, 2025",
-    time: "10:00 AM - 4:00 PM",
-    location: "Tech Building, Room 101",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-    description: "Learn the fundamentals of modern web development with hands-on coding exercises. This workshop will cover HTML5, CSS3, and JavaScript.",
-    tags: ["Web Dev", "Beginner"]
-  },
+  // {
+  //   id: 1,
+  //   title: "Web Development Workshop",
+  //   date: "April 25, 2025",
+  //   time: "10:00 AM - 4:00 PM",
+  //   location: "Tech Building, Room 101",
+  //   image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+  //   description: "Learn the fundamentals of modern web development with hands-on coding exercises. This workshop will cover HTML5, CSS3, and JavaScript.",
+  //   tags: ["Web Dev", "Beginner"]
+  // },
   {
     id: 2,
     title: "AI & Machine Learning Hackathon",
@@ -26,61 +26,61 @@ const upcomingEvents = [
     description: "Build innovative solutions using AI and ML technologies in this 24-hour coding challenge. Prizes for top teams!",
     tags: ["AI/ML", "Hackathon", "Advanced"]
   },
-  {
-    id: 3,
-    title: "Mobile App Development Series",
-    date: "May 15-16, 2025",
-    time: "2:00 PM - 5:00 PM",
-    location: "Tech Building, Room 203",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-    description: "A two-day workshop on building cross-platform mobile applications. Learn React Native from industry experts.",
-    tags: ["Mobile Dev", "React Native", "Intermediate"]
-  },
-  {
-    id: 4,
-    title: "Cybersecurity Workshop",
-    date: "May 22, 2025",
-    time: "11:00 AM - 3:00 PM",
-    location: "Virtual Event",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    description: "Learn about common security threats and how to protect against them. Includes hands-on exercises in a safe environment.",
-    tags: ["Security", "Intermediate"]
-  }
+  // {
+  //   id: 3,
+  //   title: "Mobile App Development Series",
+  //   date: "May 15-16, 2025",
+  //   time: "2:00 PM - 5:00 PM",
+  //   location: "Tech Building, Room 203",
+  //   image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+  //   description: "A two-day workshop on building cross-platform mobile applications. Learn React Native from industry experts.",
+  //   tags: ["Mobile Dev", "React Native", "Intermediate"]
+  // },
+  // {
+  //   id: 4,
+  //   title: "Cybersecurity Workshop",
+  //   date: "May 22, 2025",
+  //   time: "11:00 AM - 3:00 PM",
+  //   location: "Virtual Event",
+  //   image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+  //   description: "Learn about common security threats and how to protect against them. Includes hands-on exercises in a safe environment.",
+  //   tags: ["Security", "Intermediate"]
+  // }
 ];
 
 const pastEvents = [
   {
     id: 5,
-    title: "Introduction to Cloud Computing",
+    title: "MERN Stack Development Workshop",
     date: "March 10, 2025",
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-    description: "An overview of modern cloud platforms with hands-on labs using AWS, Azure, and Google Cloud.",
-    tags: ["Cloud", "Beginner"]
+    description: "One-day intensive workshop on building full-stack applications using MongoDB, Express.js, React, and Node.js.",
+    tags: ["Full StacK Dev", "Intermediate"]
   },
   {
     id: 6,
-    title: "Data Science Bootcamp",
-    date: "February 15-18, 2025",
+    title: "Mobile App Development Bootcamp",
+    date: "August 08-18, 2025",
     image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334",
-    description: "Four-day intensive bootcamp covering Python, data analysis, visualization, and basic machine learning concepts.",
-    tags: ["Data Science", "Python", "Intermediate"]
+    description: "A comprehensive bootcamp covering the essentials of mobile app development using Flutter and Dart.",
+    tags: ["Flutter", "Dart", "Intermediate"]
   },
-  {
-    id: 7,
-    title: "Blockchain Technology Workshop",
-    date: "January 25, 2025",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    description: "Learn about blockchain technology, cryptocurrencies, and develop a simple blockchain application.",
-    tags: ["Blockchain", "Advanced"]
-  },
-  {
-    id: 8,
-    title: "UX/UI Design Fundamentals",
-    date: "January 10, 2025",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    description: "Introduction to user experience and interface design principles with practical Figma exercises.",
-    tags: ["Design", "Beginner"]
-  }
+  // {
+  //   id: 7,
+  //   title: "Blockchain Technology Workshop",
+  //   date: "January 25, 2025",
+  //   image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+  //   description: "Learn about blockchain technology, cryptocurrencies, and develop a simple blockchain application.",
+  //   tags: ["Blockchain", "Advanced"]
+  // },
+  // {
+  //   id: 8,
+  //   title: "UX/UI Design Fundamentals",
+  //   date: "January 10, 2025",
+  //   image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
+  //   description: "Introduction to user experience and interface design principles with practical Figma exercises.",
+  //   tags: ["Design", "Beginner"]
+  // }
 ];
 
 export default function EventsPage() {

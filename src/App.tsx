@@ -17,6 +17,7 @@ import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
+import EventsDetails from "./pages/eventDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Layout><HomePage /></Layout>} />
               <Route path="/events" element={<Layout><EventsPage /></Layout>} />
+               <Route path="/events/:event" element={<Layout><EventsDetails /></Layout>} />
               <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
               <Route path="/certificates" element={<Layout><CertificatePage /></Layout>} />
               <Route path="/achievements" element={<Layout><AchievementsPage /></Layout>} />

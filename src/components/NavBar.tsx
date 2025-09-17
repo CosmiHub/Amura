@@ -26,7 +26,7 @@ export function NavBar() {
     { name: "Events & Workshops", path: "/events" },
     { name: "Register", path: "/register" },
     { name: "Certificate Download", path: "/certificates" },
-    { name: "Achievements", path: "/achievements" },
+    // { name: "Achievements", path: "/achievements" },
     { name: "About Us", path: "/about" },
     // Only show Admin link when not logged in or not already an admin
     ...(isAdminUser ? [] : [

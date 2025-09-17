@@ -1,13 +1,13 @@
 
 export const departments = [
   "Computer Science & Engineering",
-  "Information Technology",
-  "Electronics & Communication",
-  "Electrical Engineering",
+  "CSE AI & ML",
+  "CSE Data Science",
+  "CSE Cyber Security",
+  "Information Science & Technology",
+  "Electronics & Communication Engineering",
   "Mechanical Engineering",
   "Civil Engineering",
-  "Chemical Engineering",
-  "Biotechnology",
 ];
 
 export const years = [
@@ -15,5 +15,5 @@ export const years = [
   "2nd Year",
   "3rd Year",
   "4th Year",
-  "Postgraduate",
+  // "Postgraduate",
 ];
