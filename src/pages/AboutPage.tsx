@@ -106,7 +106,7 @@ const facultyAdvisors = [
   {
     name: "Dr. Rama Satish K V",
     role: "Faculty Advisor",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?fit=crop&w=800&h=800",
+    image: "",
     department: "Computer Science Engineering AI & ML",
     bio: "Dr. Gupta provides guidance and mentorship to the club. His research interests include distributed systems and blockchain technology.",
     skills: ["Distributed Systems", "Blockchain", "Research", "Mentoring"],

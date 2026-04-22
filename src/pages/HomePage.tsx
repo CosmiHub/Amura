@@ -28,9 +28,8 @@ export default function HomePage() {
               </div>
             </div>
             <div className="hidden lg:flex justify-center">
-                className="rounded-lg shadow-lg max-h-[400px] object-cover animate-fade-in"
-                loading="lazy"
-              />
+                <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+              
             </div>
           </div>
         </div>
@@ -112,9 +111,7 @@ export default function HomePage() {
             {/* Event Card 1 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
               <div className="h-48 overflow-hidden">
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+                   <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
               </div>
               <div className="p-6">
                 <div className="text-sm text-amura-purple font-semibold mb-2">April 25, 2025 • 10:00 AM</div>
@@ -127,9 +124,7 @@ export default function HomePage() {
             {/* Event Card 2 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
               <div className="h-48 overflow-hidden">
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+                   <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
               </div>
               <div className="p-6">
                 <div className="text-sm text-amura-purple font-semibold mb-2">May 10, 2025 • 9:00 AM</div>
