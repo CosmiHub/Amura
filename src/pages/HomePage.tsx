@@ -28,10 +28,8 @@ export default function HomePage() {
               </div>
             </div>
             <div className="hidden lg:flex justify-center">
-              <img 
-                src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-                alt="Tech innovation" 
                 className="rounded-lg shadow-lg max-h-[400px] object-cover animate-fade-in"
+                loading="lazy"
               />
             </div>
           </div>
@@ -114,10 +112,8 @@ export default function HomePage() {
             {/* Event Card 1 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
               <div className="h-48 overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6" 
-                  alt="Web Development Workshop" 
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -131,10 +127,8 @@ export default function HomePage() {
             {/* Event Card 2 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
               <div className="h-48 overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81" 
-                  alt="AI & Machine Learning Hackathon" 
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">

@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -53,13 +53,16 @@ interface RegisterFormProps {
 
 export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsLoading }: RegisterFormProps) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialEventId = searchParams.get("event") || "";
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     usn: "",
     email: user?.email || "",
     department: "",
     year: "",
-    eventId: "",
+    eventId: initialEventId,
   });
 
   const [errors, setErrors] = useState<FormErrors>({
@@ -72,6 +75,39 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
   });
 
   const [formLoading, setFormLoading] = useState(false);
+  const [selectedEventData, setSelectedEventData] = useState<Event | null>(null);
+  const [selectedEventCount, setSelectedEventCount] = useState(0);
+  const [countLoading, setCountLoading] = useState(false);
+
+  useEffect(() => {
+    if (formData.eventId) {
+      fetchEventDetails(formData.eventId);
+    }
+  }, [formData.eventId]);
+
+  const fetchEventDetails = async (id: string) => {
+    setCountLoading(true);
+    try {
+      const { data: event } = await supabase
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (event) setSelectedEventData(event as any);
+
+      const { count } = await supabase
+        .from("registrations")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", id);
+
+      setSelectedEventCount(count || 0);
+    } catch (err) {
+      console.error("Error fetching event count:", err);
+    } finally {
+      setCountLoading(false);
+    }
+  };
 
   const validateForm = () => {
     let valid = true;
@@ -161,12 +197,23 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
     setFormLoading(true);
 
     try {
-      let userId = user?.id;
-      
-      // If admin user, generate a random user ID
-      if (userIsAdmin) {
-        userId = crypto.randomUUID();
+      // Check capacity again
+      const { count } = await supabase
+        .from("registrations")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", formData.eventId);
+
+      if (selectedEventData?.max_participants && (count || 0) >= (selectedEventData.max_participants as number)) {
+        toast({
+          title: "Registration Failed",
+          description: "Sorry, this event has reached its maximum capacity.",
+          variant: "destructive",
+        });
+        setFormLoading(false);
+        return;
       }
+
+      const userId = user?.id;
 
       console.log("Submitting registration with user ID:", userId);
 
@@ -239,12 +286,18 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
         <CardHeader>
           <CardTitle>Student Registration</CardTitle>
           <CardDescription>
-            Please fill in all the required fields.
+            {formData.eventId && selectedEventData && (
+              <span className={`text-sm font-medium ${selectedEventData.max_participants && selectedEventCount >= (selectedEventData.max_participants as number) ? "text-red-500" : "text-gray-500"}`}>
+                Capacity: {selectedEventCount} / {selectedEventData.max_participants || 50} filled
+                {selectedEventData.max_participants && selectedEventCount >= (selectedEventData.max_participants as number) && " (FULL)"}
+              </span>
+            )}
+            {!formData.eventId && "Please fill in all the required fields."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <FormInputs 
+            <FormInputs
               formData={formData}
               errors={errors}
               events={events}
@@ -259,10 +312,11 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
         <CardFooter>
           <Button
             className="w-full btn-primary"
-            disabled={formLoading || !authenticated}
+            disabled={formLoading || !authenticated || countLoading || (!!selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number))}
             onClick={handleSubmit}
           >
-            {formLoading ? "Registering..." : "Register Now"}
+            {formLoading ? "Registering..." :
+              (selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number) ? "Registration Full" : "Register Now")}
           </Button>
         </CardFooter>
       </Card>

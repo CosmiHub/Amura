@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,11 +16,24 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { supabase } from "@/integrations/supabase/client";
+import { ALLOWED_ADMINS } from "@/constants/admins";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AuthPage() {
+  const { user, isAdmin } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
+
+  useEffect(() => {
+    if (user) {
+      if (isAdmin()) {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
+    }
+  }, [user, isAdmin, navigate]);
 
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -117,9 +130,37 @@ export default function AuthPage() {
 
     setLoading(true);
     try {
+      const email = loginForm.email.trim();
+      const password = loginForm.password;
+
+      // 1. Check if it's an admin from ALLOWED_ADMINS
+      const adminMatch = ALLOWED_ADMINS.find(
+        (admin) => admin.email.trim().toLowerCase() === email.toLowerCase() && admin.password.trim() === password.trim()
+      );
+      
+      if (adminMatch) {
+        console.log("Admin login detected:", email);
+        const adminUser = {
+          email: adminMatch.email,
+          username: adminMatch.username,
+          isAdmin: true,
+          id: `admin-${adminMatch.username}`
+        };
+        localStorage.setItem("adminUser", JSON.stringify(adminUser));
+        toast({
+          title: "Admin Login Successful",
+          description: `Welcome back, ${adminMatch.username}!`,
+        });
+        // We need to reload to trigger AuthContext refresh or manually update context
+        // For simplicity, we can reload or use window.location.href
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      // 2. Otherwise try regular Supabase login
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: loginForm.email.trim(),
-        password: loginForm.password,
+        email: email,
+        password: password,
       });
 
       if (error) throw error;

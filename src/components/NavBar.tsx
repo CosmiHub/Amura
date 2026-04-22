@@ -28,10 +28,6 @@ export function NavBar() {
     { name: "Certificate Download", path: "/certificates" },
     { name: "Achievements", path: "/achievements" },
     { name: "About Us", path: "/about" },
-    // Only show Admin link when not logged in or not already an admin
-    ...(isAdminUser ? [] : [
-      { name: "Admin", path: "/login", showAlways: true }
-    ]),
     // Show Login link only when not logged in
     { name: "Login", path: "/auth", adminOnly: false },
     // Show Dashboard link only for admins

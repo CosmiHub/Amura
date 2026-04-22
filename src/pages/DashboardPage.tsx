@@ -26,7 +26,7 @@ export default function DashboardPage() {
         description: "You need to log in with administrator privileges to access this page.",
         variant: "destructive",
       });
-      navigate("/login");
+      navigate("/auth");
       return;
     }
 
@@ -37,7 +37,7 @@ export default function DashboardPage() {
         description: "You need administrator privileges to access this page.",
         variant: "destructive",
       });
-      navigate("/login");
+      navigate("/auth");
       return;
     }
 
@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
   const handleLogout = () => {
     signOut().then(() => {
-      navigate("/login");
+      navigate("/auth");
     });
   };
 

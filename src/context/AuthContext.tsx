@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       console.log("Signing out admin user");
       localStorage.removeItem("adminUser");
       setUser(null);
-      window.location.href = "/login"; // Force redirect to login page
+      window.location.href = "/auth"; // Force redirect to login page
       return;
     }
     

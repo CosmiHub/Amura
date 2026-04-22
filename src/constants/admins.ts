@@ -7,18 +7,18 @@ export type AdminUser = {
 
 export const ALLOWED_ADMINS: AdminUser[] = [
   {
-    email: "uvcosmos2@gmail.com",
-    password: "123Sumit_",
-    username: "Sumit Raj"
+    email: import.meta.env.VITE_ADMIN1_EMAIL || "",
+    password: import.meta.env.VITE_ADMIN1_PASSWORD || "",
+    username: import.meta.env.VITE_ADMIN1_USERNAME || ""
   },
   {
-    email: "srsaini2004@gmail.com",
-    password: "123Saini_",
-    username: "Saini"
+    email: import.meta.env.VITE_ADMIN2_EMAIL || "",
+    password: import.meta.env.VITE_ADMIN2_PASSWORD || "",
+    username: import.meta.env.VITE_ADMIN2_USERNAME || ""
   },
   {
-    email: "sumitraj23aiml@rnsit.ac.in",
-    password: "123Sumitraj_",
-    username: "Sumit"
+    email: import.meta.env.VITE_ADMIN3_EMAIL || "",
+    password: import.meta.env.VITE_ADMIN3_PASSWORD || "",
+    username: import.meta.env.VITE_ADMIN3_USERNAME || ""
   }
 ];

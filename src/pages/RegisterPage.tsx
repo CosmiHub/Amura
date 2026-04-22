@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -19,15 +18,6 @@ export default function RegisterPage() {
   const location = useLocation();
   const { user, isAdmin } = useAuth();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    usn: "",
-    email: "",
-    department: "",
-    year: "",
-    eventId: "",
-  });
-
   const [events, setEvents] = useState<Event[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
 
@@ -38,11 +28,6 @@ export default function RegisterPage() {
 
   useEffect(() => {
     console.log("User auth state:", { authenticated, userIsAdmin });
-    
-    // Pre-fill email if user is logged in
-    if (user?.email) {
-      setFormData(prev => ({ ...prev, email: user.email || "" }));
-    }
   }, [user, authenticated, userIsAdmin]);
 
   useEffect(() => {
@@ -75,13 +60,6 @@ export default function RegisterPage() {
     fetchEvents();
   }, []);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const eventId = params.get("event");
-    if (eventId) {
-      setFormData((prev) => ({ ...prev, eventId }));
-    }
-  }, [location.search]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 py-12">
