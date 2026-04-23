@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTitle, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,6 +22,8 @@ export const EventManagement = () => {
   const [viewingRegistrations, setViewingRegistrations] = useState<any[]>([]);
   const [showRegistrations, setShowRegistrations] = useState(false);
   const [selectedEventTitle, setSelectedEventTitle] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [form, setForm] = useState<EventInsert>({
     title: "",
     date: "",
@@ -29,6 +31,7 @@ export const EventManagement = () => {
     status: "active",
     description: "",
     location: "",
+    image_url: null,
   });
 
   useEffect(() => {
@@ -71,7 +74,12 @@ export const EventManagement = () => {
         status: event.status || "active",
         description: event.description || "",
         location: event.location || "",
+        image_url: event.image_url || null,
       });
+      if (event.image_url) {
+        setImagePreview(event.image_url);
+      }
+      setImageFile(null);
     } else {
       setIsEdit(false);
       setEditingEventId(null);
@@ -82,7 +90,10 @@ export const EventManagement = () => {
         status: "active",
         description: "",
         location: "",
+        image_url: null,
       });
+      setImageFile(null);
+      setImagePreview(null);
     }
     setOpen(true);
   };
@@ -90,6 +101,8 @@ export const EventManagement = () => {
   const handleClose = () => {
     setOpen(false);
     setIsEdit(false);
+    setImageFile(null);
+    setImagePreview(null);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -100,14 +113,53 @@ export const EventManagement = () => {
     }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    setForm((prev) => ({ ...prev, image_url: null }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
+      let imageUrl = form.image_url;
+
+      // Upload image if a new file was selected
+      if (imageFile) {
+        const fileName = `event-${Date.now()}-${imageFile.name}`;
+        const { data, error: uploadError } = await supabase.storage
+          .from("event-images")
+          .upload(fileName, imageFile);
+
+        if (uploadError) throw uploadError;
+
+        // Get public URL
+        const { data: publicUrlData } = supabase.storage
+          .from("event-images")
+          .getPublicUrl(fileName);
+
+        imageUrl = publicUrlData.publicUrl;
+      }
+
+      const submitForm = { ...form, image_url: imageUrl };
+
       if (isEdit && editingEventId) {
         const { error } = await supabase
           .from("events")
-          .update(form as EventUpdate)
+          .update(submitForm as EventUpdate)
           .eq("id", editingEventId);
 
         if (error) throw error;
@@ -121,7 +173,7 @@ export const EventManagement = () => {
           description: `Updated event: ${form.title}`,
         });
       } else {
-        const { error } = await supabase.from("events").insert(form);
+        const { error } = await supabase.from("events").insert(submitForm);
         if (error) throw error;
         toast({
           title: "Event created",
@@ -269,6 +321,27 @@ export const EventManagement = () => {
                 name="location"
                 value={form.location || ""}
                 onChange={handleChange}
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Event Image (Optional)</label>
+              {imagePreview ? (
+                <div className="relative">
+                  <img src={imagePreview} alt="Preview" className="w-full h-40 object-cover rounded mb-2" />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : null}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
                 className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
               />
             </div>
