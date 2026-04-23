@@ -1,12 +1,26 @@
-
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
 
 export default function HomePage() {
-  useEffect(() => {
-    console.log("HomePage component mounted");
-  }, []);
+  const { data: events, isLoading } = useQuery({
+    queryKey: ['upcoming-events-preview'],
+    queryFn: async () => {
+      const today = new Date().toISOString().split("T")[0];
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .gte("date", today)
+        .order("date", { ascending: true })
+        .limit(2);
+
+      if (error) throw error;
+      return data;
+    }
+  });
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -28,8 +42,8 @@ export default function HomePage() {
               </div>
             </div>
             <div className="hidden lg:flex justify-center">
-                <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-              
+              <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+
             </div>
           </div>
         </div>
@@ -53,7 +67,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">
             What We Offer
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card 1 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl shadow-card p-6 card-hover">
@@ -67,7 +81,7 @@ export default function HomePage() {
                 Hands-on technical workshops, coding bootcamps, and expert-led training sessions on cutting-edge technologies.
               </p>
             </div>
-            
+
             {/* Card 2 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl shadow-card p-6 card-hover">
               <div className="h-12 w-12 rounded-full bg-amura-purple-light flex items-center justify-center mb-4">
@@ -80,7 +94,7 @@ export default function HomePage() {
                 Collaborative real-world projects where students can apply their skills and build impressive portfolio pieces.
               </p>
             </div>
-            
+
             {/* Card 3 */}
             <div className="bg-white dark:bg-gray-900 rounded-xl shadow-card p-6 card-hover">
               <div className="h-12 w-12 rounded-full bg-amura-purple-light flex items-center justify-center mb-4">
@@ -90,7 +104,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Career Development</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Industry connections, mentorship opportunities, and guidance on building a successful career in technology.
+                Mentorship opportunities, and guidance on building a successful career in technology.
               </p>
             </div>
           </div>
@@ -106,34 +120,48 @@ export default function HomePage() {
               View All <ArrowRight size={16} className="ml-1" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Event Card 1 */}
-            <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
-              <div className="h-48 overflow-hidden">
-                   <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            {isLoading ? (
+              <div className="col-span-full flex justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-amura-purple" />
               </div>
-              <div className="p-6">
-                <div className="text-sm text-amura-purple font-semibold mb-2">April 25, 2025 • 10:00 AM</div>
-                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Web Development Workshop</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Learn the fundamentals of modern web development with hands-on coding exercises.</p>
-                <Link to="/register" className="btn-secondary inline-block">Register Now</Link>
+            ) : events && events.length > 0 ? (
+              events.map((event) => (
+                <div key={event.id} className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card card-hover">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      className="w-full h-full object-cover" 
+                      src={event.image_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop"} 
+                      alt={event.title} 
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="text-sm text-amura-purple font-semibold mb-2">
+                      {new Date(event.date).toLocaleDateString(undefined, {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                      {event.location && ` • ${event.location}`}
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{event.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                      {event.description || "Join us for this exciting technical event!"}
+                    </p>
+                    <Link to={`/register?event=${event.id}`} className="btn-secondary inline-block">
+                      Register Now
+                    </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 dark:text-gray-400">No upcoming events at the moment. Check back soon!</p>
               </div>
-            </div>
-            
-            {/* Event Card 2 */}
-            <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-card">
-              <div className="h-48 overflow-hidden">
-                   <img className="rounded-lg" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-              </div>
-              <div className="p-6">
-                <div className="text-sm text-amura-purple font-semibold mb-2">May 10, 2025 • 9:00 AM</div>
-                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">AI & Machine Learning Hackathon</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Build innovative solutions using AI and ML technologies in this 24-hour coding challenge.</p>
-                <Link to="/register" className="btn-secondary inline-block">Register Now</Link>
-              </div>
-            </div>
+            )}
           </div>
+
         </div>
       </section>
 

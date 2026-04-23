@@ -58,7 +58,7 @@ export default function EventsPage() {
     }
     setRegistrationCounts((prev) => ({ ...prev, ...counts }));
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800">
       <div className="bg-amura-purple text-white py-12">
@@ -76,7 +76,7 @@ export default function EventsPage() {
               <TabsTrigger value="past">Past Events</TabsTrigger>
             </TabsList>
           </div>
-          
+
           <TabsContent value="upcoming">
             {loading ? (
               <div className="text-center py-12">
@@ -137,7 +137,7 @@ export default function EventsPage() {
               </div>
             )}
           </TabsContent>
-          
+
           <TabsContent value="past">
             {loading ? (
               <div className="text-center py-12">

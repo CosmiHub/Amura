@@ -11,9 +11,9 @@ import RegisterPage from "./pages/RegisterPage";
 import CertificatePage from "./pages/CertificatePage";
 import AchievementsPage from "./pages/AchievementsPage";
 import AboutPage from "./pages/AboutPage";
-import LoginPage from "./pages/LoginPage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
+import EventDetailsPage from "./pages/EventDetailsPage";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
@@ -42,6 +42,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Layout><HomePage /></Layout>} />
               <Route path="/events" element={<Layout><EventsPage /></Layout>} />
+              <Route path="/events/:id" element={<Layout><EventDetailsPage /></Layout>} />
               <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
               <Route path="/certificates" element={<Layout><CertificatePage /></Layout>} />
               <Route path="/achievements" element={<Layout><AchievementsPage /></Layout>} />

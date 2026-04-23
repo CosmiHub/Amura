@@ -109,7 +109,7 @@ export const EventManagement = () => {
           .from("events")
           .update(form as EventUpdate)
           .eq("id", editingEventId);
-        
+
         if (error) throw error;
         toast({
           title: "Event updated",
@@ -148,12 +148,12 @@ export const EventManagement = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this event? This will also delete all registrations and certificates associated with it.")) return;
-    
+
     setLoading(true);
     try {
       const { error } = await supabase.from("events").delete().eq("id", id);
       if (error) throw error;
-      
+
       toast({
         title: "Event deleted",
         description: "The event has been deleted.",
@@ -183,7 +183,7 @@ export const EventManagement = () => {
       .from("registrations")
       .select("*")
       .eq("event_id", event.id);
-    
+
     if (!error && data) {
       setViewingRegistrations(data);
       setShowRegistrations(true);

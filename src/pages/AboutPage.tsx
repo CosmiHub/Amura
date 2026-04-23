@@ -25,33 +25,33 @@ const coreTeam: TeamMember[] = [
     name: "Prarthana Nagraj",
     role: "Head",
     image: "/assets/prarthana.png",
-    department: "CSE AI & ML",
-    bio: "Prarthana leads the AMURA technical club with a vision to create a vibrant tech community. He specializes in AI and has worked on several research projects.",
+    department: "CSE(AI & ML)",
+    bio: "Prarthana leads the AMURA technical club with a vision to create a vibrant tech community. She specializes in AI and has worked on several research projects.",
     skills: ["AI/ML", "Leadership", "Project Management", "Python"],
     social: {
-      linkedin: "https://linkedin.com/in/rahul-sharma",
-      github: "https://github.com/rahulsharma",
-      email: "rahul.sharma@amuratech.org"
+      linkedin: "https://www.linkedin.com/in/prarthana-nagaraj-150846290?",
+      github: "https://github.com/prarthananagraj",
+      email: "prarthananagraj23aiml@rnsit.ac.in"
     }
   },
   {
-    name: "Shrikar Ramesh",
+    name: "Karthik K",
     role: "Head",
-    image: "/assets/shrikar.png",
-    department: "CSE AI & ML",
-    bio: "Shrikar  oversees event coordination and member development. She's passionate about web technologies and has led multiple hackathons.",
+    image: "/assets/karthik.jpeg",
+    department: "CSE(AI & ML)",
+    bio: "Karthik  oversees event coordination and member development. He's passionate about web technologies and has led multiple events.",
     skills: ["Frontend Development", "Event Management", "JavaScript", "React"],
     social: {
-      linkedin: "https://linkedin.com/in/priya-singh",
-      github: "https://github.com/priyasingh",
-      email: "priya.singh@amuratech.org"
+      linkedin: "https://www.linkedin.com/in/karthik-k-3b4909326?",
+      github: "https://github.com/Karthikrishna05",
+      email: "karthikk23aiml@rnsit.ac.in"
     }
   },
   {
     name: "Sumit Raj",
     role: "Technical Head",
     image: "/assets/sumit.png",
-    department: "CSE AI & ML",
+    department: "CSE(AI & ML)",
     bio: "Sumit manages the technical aspects of all club projects. He's an experienced full-stack developer with expertise in cloud architecture.",
     skills: ["Full Stack", "Cloud Computing", "DevOps", "AI"],
     social: {
@@ -61,42 +61,42 @@ const coreTeam: TeamMember[] = [
     }
   },
   {
-    name: "Shrutika Nagraj",
+    name: "Varsheta Ganesh",
     role: "Events Coordinator",
-    image: "/assets/shrutika.png",
-    department: "CSE AI & ML",
-    bio: "Shrutika plans and coordinates all club events, workshops and hackathons. She specializes in IoT and embedded systems.",
-    skills: ["Event Planning", "IoT", "Arduino", "Public Speaking"],
+    image: "/assets/varsheta.jpeg",
+    department: "CSE(AI & ML)",
+    bio: "Varsheta plans and coordinates all club events, workshops and hackathons. She specializes in IoT and web development.",
+    skills: ["Event Planning", "IoT", "Web development", "Public Speaking"],
     social: {
-      linkedin: "https://linkedin.com/in/neha-patel",
-      github: "https://github.com/nehapatel",
-      email: "neha.patel@amuratech.org"
+      linkedin: "https://www.linkedin.com/in/varsheta-ganesh-5890032a7?",
+      github: "https://github.com/varshetaganesh",
+      email: "varshetaganesh23aiml@rnsit.ac.in"
     }
   },
   {
-    name: "Namritha S",
+    name: "Suhana Vijay ",
     role: "Marketing Lead",
-    image: "/assets/namrita.png",
-    department: "CSE AI & ML",
-    bio: "Namritha handles all promotional activities and social media presence for the club. He's also skilled in UI/UX design.",
+    image: "/assets/suhana.jpeg",
+    department: "CSE(AI & ML)",
+    bio: "Suhana handles all promotional activities and social media presence for the club. She's also skilled in UI/UX design.",
     skills: ["Digital Marketing", "UI/UX Design", "Content Creation", "Figma"],
     social: {
-      linkedin: "https://linkedin.com/in/ankit-verma",
-      github: "https://github.com/ankitverma",
-      email: "ankit.verma@amuratech.org"
+      linkedin: "https://www.linkedin.com/in/suhana-vijay-109019274?",
+      github: "https://github.com/Suhana-Vijay",
+      email: "suhanavijay24aiml@rnsit.ac.in"
     }
   },
   {
-    name: "Ujwal Gowda",
+    name: "S Ujjwal Gowda",
     role: "Technical Lead",
     image: "/assets/ujjwal.png",
-    department: "CSE AI & ML",
-    bio: "Ujwal manages administrative tasks and documentation. She's passionate about cybersecurity and has organized several security workshops.",
-    skills: ["Cybersecurity", "Documentation", "Organization", "Python"],
+    department: "CSE(AI & ML)",
+    bio: "Ujjwal manages administrative tasks and documentation. He's passionate about AIML and has organized several workshops.",
+    skills: ["AIML", "Web development", "Public speaking", "Python"],
     social: {
-      linkedin: "https://linkedin.com/in/meera-reddy",
-      github: "https://github.com/meerareddy",
-      email: "meera.reddy@amuratech.org"
+      linkedin: "https://www.linkedin.com/in/s-ujjwal-gowda",
+      github: "https://github.com/ujjwal1509",
+      email: "sujjwalgowda23aiml@rnsit.ac.in"
     }
   }
 ];
@@ -106,25 +106,25 @@ const facultyAdvisors = [
   {
     name: "Dr. Rama Satish K V",
     role: "Faculty Advisor",
-    image: "",
-    department: "Computer Science Engineering AI & ML",
-    bio: "Dr. Gupta provides guidance and mentorship to the club. His research interests include distributed systems and blockchain technology.",
-    skills: ["Distributed Systems", "Blockchain", "Research", "Mentoring"],
+    image: "/assets/ramasatish.jpeg",
+    department: "CSE(AI & ML)",
+    bio: "Dr. Rama Satish K V provides guidance and mentorship to the club. His research interests include AIML and   IoT.",
+    skills: ["AIML", "IoT", "Research", "Mentoring"],
     social: {
       linkedin: "https://www.linkedin.com/in/dr-rama-satish-k-v-aiml/",
-      email: "rajesh.gupta@university.edu"
+      email: "ramasatish.kv@rnsit.ac.in"
     }
   },
   {
     name: "Prof. Seema G S",
     role: "Faculty Co-Advisor",
     image: "/assets/seema.png",
-    department: "CSE AI & ML",
-    bio: "Prof. Sharma assists the club with industry connections and project guidance. She specializes in AI and data science.",
-    skills: ["ML", "IOT", "", "Academic Research"],
+    department: "CSE(AI & ML)",
+    bio: "Prof. Seema G S assists the club with industry connections and project guidance. She specializes in AI and data science.",
+    skills: ["ML", "Python", "C", "Academic Research"],
     social: {
       linkedin: "https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav",
-      email: "sunita.sharma@university.edu"
+      email: "seema.gs@rnsit.ac.in"
     }
   }
 ];
@@ -147,13 +147,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div className="md:col-span-3">
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                AMURA Technical Club was founded in 2022 by a group of passionate students who wanted to create a community where technology enthusiasts could learn, collaborate, and innovate together. What began as informal meetups quickly evolved into a structured organization that now hosts workshops, hackathons, and industry talks.
+                AMURA Technical Club was founded in 2024 by a group of passionate students who wanted to create a community where technology enthusiasts could learn, collaborate, and innovate together. What began as informal meetups quickly evolved into a structured organization that now hosts workshops, hackathons, and industry talks.
               </p>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Our club's name, AMURA, represents our core values: Ambition, Mastery, Unity, Resilience, and Achievement. We believe that technology is most powerful when it's collaborative, inclusive, and focused on solving real-world problems.
               </p>
               <p className="text-gray-600 dark:text-gray-300">
-                Today, AMURA has grown to over 50 active members across various departments. We pride ourselves on bridging the gap between academic learning and industry requirements, giving our members the skills and experiences they need to thrive in the tech industry.
+                Today, AMURA has grown to over 50 active members. We pride ourselves on bridging the gap between academic learning and industry requirements, giving our members the skills and experiences they need to thrive in the tech industry.
               </p>
 
               <div className="mt-6">
@@ -183,7 +183,7 @@ export default function AboutPage() {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                     loading="lazy"
                   />
                 </div>

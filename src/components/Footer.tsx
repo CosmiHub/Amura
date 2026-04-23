@@ -17,10 +17,10 @@ export function Footer() {
               <a href="https://github.com" className="text-gray-500 hover:text-amura-purple">
                 <Github size={20} />
               </a>
-              <a href="https://linkedin.com" className="text-gray-500 hover:text-amura-purple">
+              <a href="https://www.linkedin.com/company/amura-ai-ml-student-club-rnsit/" className="text-gray-500 hover:text-amura-purple">
                 <Linkedin size={20} />
               </a>
-              <a href="mailto:contact@amuratech.org" className="text-gray-500 hover:text-amura-purple">
+              <a href="prarthananagraj23aiml@rnsit.ac.in" className="text-gray-500 hover:text-amura-purple">
                 <Mail size={20} />
               </a>
             </div>
@@ -62,19 +62,19 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li className="flex items-start">
+              {/* <li className="flex items-start">
                 <MapPin size={18} className="mr-2 text-amura-purple flex-shrink-0 mt-1" />
                 <span className="text-gray-600 dark:text-gray-300">
                   123 University Campus, Tech Building, Floor 2
                 </span>
-              </li>
+              </li> */}
               <li className="flex items-center">
                 <Phone size={18} className="mr-2 text-amura-purple flex-shrink-0" />
-                <span className="text-gray-600 dark:text-gray-300">+91 98765 43210</span>
+                <span className="text-gray-600 dark:text-gray-300">+91 9731424499</span>
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="mr-2 text-amura-purple flex-shrink-0" />
-                <span className="text-gray-600 dark:text-gray-300">contact@amuratech.org</span>
+                <span className="text-gray-600 dark:text-gray-300">prarthananagraj23aiml@rnsit.ac.in</span>
               </li>
             </ul>
           </div>

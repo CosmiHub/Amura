@@ -14,7 +14,7 @@ export default function AchievementsPage() {
             Celebrating our milestones, awards, and notable accomplishments
           </p>
         </div>
-        
+
         {/* Featured Achievements */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Card className="bg-gradient-to-br from-amura-purple to-amura-purple-dark text-white shadow-lg">
@@ -23,129 +23,141 @@ export default function AchievementsPage() {
                 <Trophy className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-bold text-xl">25+</h3>
+                <h3 className="font-bold text-xl">5+</h3>
                 <p>Awards Won</p>
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-amura-blue to-amura-blue-light text-white shadow-lg">
             <CardContent className="pt-6 flex items-center space-x-4">
               <div className="p-3 rounded-full bg-white/20">
                 <Users className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-bold text-xl">1500+</h3>
+                <h3 className="font-bold text-xl">500+</h3>
                 <p>Students Engaged</p>
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-700 to-purple-500 text-white shadow-lg">
             <CardContent className="pt-6 flex items-center space-x-4">
               <div className="p-3 rounded-full bg-white/20">
                 <Code className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-bold text-xl">50+</h3>
+                <h3 className="font-bold text-xl">6+</h3>
                 <p>Projects Completed</p>
               </div>
             </CardContent>
           </Card>
         </div>
-        
+
         {/* Achievement Timeline */}
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-center mb-10 text-gray-900 dark:text-white">Our Journey</h2>
-          
+
           <TimeLine className="max-w-3xl mx-auto">
             <TimeLineItem>
               <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
                 <div className="flex items-center mb-2">
-                  <Badge className="bg-amura-purple text-white">2025</Badge>
-                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">National Hackathon Champions</h3>
+                  <Badge className="bg-amura-purple text-white">April, 2026</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Luminus Tech Fest 2026</h3>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Our team won first place at the National Student Hackathon with an innovative AI solution for healthcare accessibility.
+                  Helped in successful conduction of Reverse Image Prompting, Turing Test and Solaris-x in Luminus tech fest 2026.
+                </p>
+                {/* <div className="mt-4">
+                  <img
+                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81"
+                    alt="Hackathon Win"
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                </div> */}
+              </div>
+            </TimeLineItem>
+
+            <TimeLineItem>
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
+                <div className="flex items-center mb-2">
+                  <Badge className="bg-amura-purple text-white">Aug, 2025</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Idea-Forge 2025, Summer Internship Hackathon</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Organized Idea-Forge 2025, a hackathon that brought together students to showcase their innovative ideas.
+                </p>
+              </div>
+            </TimeLineItem>
+
+            <TimeLineItem>
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
+                <div className="flex items-center mb-2">
+                  <Badge className="bg-amura-purple text-white">Dec, 2025</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">AI Celerate 2.0</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Organized AI Celerate 2.0, Workshop on Image Processing/prompting that gave insights to the students about the latest trends in AI.
                 </p>
                 <div className="mt-4">
-                  <img 
-                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81" 
-                    alt="Hackathon Win" 
+                  <img
+                    src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+                    alt="Open Source Recognition"
                     className="w-full h-48 object-cover rounded-md"
                   />
                 </div>
               </div>
             </TimeLineItem>
-            
+
+            <TimeLineItem>
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
+                <div className="flex items-center mb-2">
+                  <Badge className="bg-amura-purple text-white">Aug, 2025</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Flutter and Dart Hackathon</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Organized Flutter and Dart Hackathon, a hackathon that gave insights to the students about the latest trends in Flutter and Dart.
+                </p>
+              </div>
+            </TimeLineItem>
+
+            <TimeLineItem>
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
+                <div className="flex items-center mb-2">
+                  <Badge className="bg-amura-purple text-white">April, 2025</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">MERN workshop</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Organized MERN workshop, a workshop that gave insights to the students about the latest trends in MERN.
+                </p>
+              </div>
+            </TimeLineItem>
+
+            <TimeLineItem>
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
+                <div className="flex items-center mb-2">
+                  <Badge className="bg-amura-purple text-white">Dec, 2024</Badge>
+                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">AI-CELERATE 1.0</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Organized AI-CELERATE 1.0, 2-Day Skill Development Programme on Python, Image Processing and Prompt engineering.
+                </p>
+              </div>
+            </TimeLineItem>
+
             <TimeLineItem>
               <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
                 <div className="flex items-center mb-2">
                   <Badge className="bg-amura-purple text-white">2024</Badge>
-                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Industry Partnership with TechCorp</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Secured a major collaboration with TechCorp to provide internships and real-world project experience for our members.
-                </p>
-              </div>
-            </TimeLineItem>
-            
-            <TimeLineItem>
-              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
-                <div className="flex items-center mb-2">
-                  <Badge className="bg-amura-purple text-white">2024</Badge>
-                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Open Source Contribution Recognition</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Our club's contributions to several open source projects were recognized at the Regional Developer Conference.
-                </p>
-                <div className="mt-4">
-                  <img 
-                    src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d" 
-                    alt="Open Source Recognition" 
-                    className="w-full h-48 object-cover rounded-md"
-                  />
-                </div>
-              </div>
-            </TimeLineItem>
-            
-            <TimeLineItem>
-              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
-                <div className="flex items-center mb-2">
-                  <Badge className="bg-amura-purple text-white">2023</Badge>
-                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Best Technical Club Award</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  AMURA was recognized as the Best Technical Club at the University Annual Awards for our innovative programs and student engagement.
-                </p>
-              </div>
-            </TimeLineItem>
-            
-            <TimeLineItem>
-              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
-                <div className="flex items-center mb-2">
-                  <Badge className="bg-amura-purple text-white">2023</Badge>
-                  <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">Launch of Mentorship Program</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Started a structured mentorship program connecting club members with industry professionals from leading tech companies.
-                </p>
-              </div>
-            </TimeLineItem>
-            
-            <TimeLineItem>
-              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-card ml-6">
-                <div className="flex items-center mb-2">
-                  <Badge className="bg-amura-purple text-white">2022</Badge>
                   <h3 className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">AMURA Club Founded</h3>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400">
                   AMURA Technical Club was established with the mission to foster technological innovation and collaboration among students.
                 </p>
                 <div className="mt-4">
-                  <img 
-                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" 
-                    alt="Club Founding" 
+                  <img
+                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+                    alt="Club Founding"
                     className="w-full h-48 object-cover rounded-md"
                   />
                 </div>
@@ -153,11 +165,11 @@ export default function AchievementsPage() {
             </TimeLineItem>
           </TimeLine>
         </div>
-        
-        {/* Notable Projects */}
+
+        {/* 
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-center mb-10 text-gray-900 dark:text-white">Notable Projects</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="shadow-card card-hover">
               <CardContent className="pt-6">
@@ -177,7 +189,7 @@ export default function AchievementsPage() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card className="shadow-card card-hover">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -196,7 +208,7 @@ export default function AchievementsPage() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card className="shadow-card card-hover">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -217,11 +229,12 @@ export default function AchievementsPage() {
             </Card>
           </div>
         </div>
-        
-        {/* Media Coverage */}
+        */}
+
+        {/* 
         <div>
           <h2 className="text-2xl font-bold text-center mb-10 text-gray-900 dark:text-white">Media Coverage</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="shadow-card card-hover">
               <CardContent className="pt-6">
@@ -239,7 +252,7 @@ export default function AchievementsPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="shadow-card card-hover">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -258,6 +271,7 @@ export default function AchievementsPage() {
             </Card>
           </div>
         </div>
+        */}
       </div>
     </div>
   );
