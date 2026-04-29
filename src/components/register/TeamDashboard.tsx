@@ -34,6 +34,15 @@ export function TeamDashboard({ teamId, isTeamLeader }: TeamDashboardProps) {
       setLoading(true);
       const teamData = await getTeamWithDetails(teamId);
       setTeam(teamData);
+
+      // Auto-correct the count if it's out of sync
+      if (teamData && teamData.team_members) {
+        const actualCount = teamData.team_members.length;
+        if (actualCount !== teamData.current_members) {
+          console.log(`Syncing team count: ${teamData.current_members} -> ${actualCount}`);
+          await updateTeam(teamId, { current_members: actualCount });
+        }
+      }
     } catch (error) {
       const errorMsg =
         error instanceof Error ? error.message : "Failed to load team details";
@@ -181,7 +190,7 @@ export function TeamDashboard({ teamId, isTeamLeader }: TeamDashboardProps) {
             <div>
               <p className="text-sm font-semibold">Members</p>
               <p className="text-2xl font-bold">
-                {team.current_members}/{team.max_members}
+                {team.team_members?.length || team.current_members || 0}/{team.max_members}
               </p>
             </div>
             <div>

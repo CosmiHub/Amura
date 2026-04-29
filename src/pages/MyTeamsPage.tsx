@@ -76,7 +76,8 @@ export function MyTeamsPage() {
           events (
             title,
             date
-          )
+          ),
+          team_members (count)
         `
         )
         .in("id", teamIds);
@@ -87,6 +88,7 @@ export function MyTeamsPage() {
         teamsData?.map((team: any) => ({
           ...team,
           event: team.events,
+          current_members: team.team_members?.[0]?.count || team.current_members
         })) || []
       );
     } catch (error) {

@@ -302,6 +302,7 @@ export async function registerAsTeamLeader(
           team_description: teamDescription || null,
           team_idea: teamIdea || null,
           join_code: generateJoinCode(),
+          current_members: 1, // Explicitly start with 1 (the leader)
         },
       ])
       .select()
@@ -399,10 +400,11 @@ export async function registerAsTeamMember(
 
   if (memberError) throw memberError;
 
-  // Increment team member count
+  // Increment team member count safely
+  const newCount = (team.current_members || 0) + 1;
   await supabase
     .from("teams")
-    .update({ current_members: team.current_members + 1 })
+    .update({ current_members: newCount })
     .eq("id", team.id);
 
   return { registration, team };
