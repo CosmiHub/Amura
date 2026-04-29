@@ -28,6 +28,8 @@ export function NavBar() {
     { name: "Certificate Download", path: "/certificates" },
     { name: "Achievements", path: "/achievements" },
     { name: "About Us", path: "/about" },
+    // Show My Teams link only when logged in
+    { name: "My Teams", path: "/my-teams", showAlways: false },
     // Show Login link only when not logged in
     { name: "Login", path: "/auth", adminOnly: false },
     // Show Dashboard link only for admins
@@ -57,7 +59,7 @@ export function NavBar() {
 
   return (
     <nav className="sticky top-0 z-10 w-full bg-white dark:bg-gray-900 shadow-md glass-effect">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
@@ -66,11 +68,14 @@ export function NavBar() {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
             {navItems.map((item) => {
               // Skip Login if user is logged in
               if (item.name === "Login" && user) return null;
               
+              // Skip My Teams if user is not logged in
+              if (item.name === "My Teams" && !user) return null;
+
               // Skip if it's an admin-only item and user is not admin
               if (item.adminOnly && !isAdminUser) return null;
 
@@ -80,7 +85,7 @@ export function NavBar() {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-2 py-1 rounded-md text-sm font-medium tracking-tight transition-colors ${
                       location.pathname === item.path
                         ? "text-amura-purple border-b-2 border-amura-purple"
                         : "text-gray-700 dark:text-gray-300 hover:text-amura-purple dark:hover:text-amura-purple"
@@ -106,9 +111,9 @@ export function NavBar() {
                 variant="ghost"
                 size="sm"
                 onClick={handleLogout}
-                className="text-gray-700 dark:text-gray-300 hover:text-amura-purple dark:hover:text-amura-purple"
+                className="text-gray-700 dark:text-gray-300 hover:text-amura-purple dark:hover:text-amura-purple px-2 py-1 h-auto"
               >
-                <LogOut className="h-4 w-4 mr-2" />
+                <LogOut className="h-4 w-4 mr-1.5" />
                 Logout
               </Button>
             )}
@@ -139,6 +144,9 @@ export function NavBar() {
               // Skip Login if user is logged in
               if (item.name === "Login" && user) return null;
               
+              // Skip My Teams if user is not logged in
+              if (item.name === "My Teams" && !user) return null;
+
               // Skip if it's an admin-only item and user is not admin
               if (item.adminOnly && !isAdminUser) return null;
 

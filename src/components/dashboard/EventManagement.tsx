@@ -32,7 +32,15 @@ export const EventManagement = () => {
     description: "",
     location: "",
     image_url: null,
+    is_hackathon: false,
+    hackathon_type: null,
+    team_min_size: 1,
+    team_max_size: 5,
+    allow_team_registration: false,
+    team_leader_preregistration: false,
+    tracks: [],
   });
+  const [newTrack, setNewTrack] = useState("");
 
   useEffect(() => {
     fetchEvents();
@@ -75,6 +83,13 @@ export const EventManagement = () => {
         description: event.description || "",
         location: event.location || "",
         image_url: event.image_url || null,
+        is_hackathon: event.is_hackathon || false,
+        hackathon_type: event.hackathon_type || null,
+        team_min_size: event.team_min_size || 1,
+        team_max_size: event.team_max_size || 5,
+        allow_team_registration: event.allow_team_registration || false,
+        team_leader_preregistration: event.team_leader_preregistration || false,
+        tracks: (event as any).tracks || [],
       });
       if (event.image_url) {
         setImagePreview(event.image_url);
@@ -91,7 +106,15 @@ export const EventManagement = () => {
         description: "",
         location: "",
         image_url: null,
+        is_hackathon: false,
+        hackathon_type: null,
+        team_min_size: 1,
+        team_max_size: 5,
+        allow_team_registration: false,
+        team_leader_preregistration: false,
+        tracks: [],
       });
+      setNewTrack("");
       setImageFile(null);
       setImagePreview(null);
     }
@@ -106,10 +129,39 @@ export const EventManagement = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
+    const { name, value, type } = e.target;
+    
+    if (type === "checkbox") {
+      const checked = (e.target as HTMLInputElement).checked;
+      setForm((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [name]: 
+          name === "max_participants" || name === "team_min_size" || name === "team_max_size"
+            ? Number(value)
+            : value,
+      }));
+    }
+  };
+
+  const addTrack = () => {
+    if (newTrack.trim()) {
+      setForm(prev => ({
+        ...prev,
+        tracks: [...((prev as any).tracks || []), newTrack.trim()]
+      }));
+      setNewTrack("");
+    }
+  };
+
+  const removeTrack = (index: number) => {
+    setForm(prev => ({
       ...prev,
-      [name]: name === "max_participants" ? Number(value) : value,
+      tracks: ((prev as any).tracks || []).filter((_: any, i: number) => i !== index)
     }));
   };
 
@@ -262,107 +314,238 @@ export const EventManagement = () => {
         </Button>
       </div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>{isEdit ? "Edit Event" : "Add New Event"}</DialogTitle>
-          </DialogHeader>
-          <form id="event-form" onSubmit={handleSubmit} className="space-y-4 py-4">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Event Name</label>
-              <input
-                type="text"
-                name="title"
-                value={form.title}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Date</label>
-              <input
-                type="date"
-                name="date"
-                value={form.date}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Max Registrations</label>
-              <input
-                type="number"
-                name="max_participants"
-                min={1}
-                value={form.max_participants}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Status</label>
-              <select
-                name="status"
-                value={form.status}
-                onChange={handleChange}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Location</label>
-              <input
-                type="text"
-                name="location"
-                value={form.location || ""}
-                onChange={handleChange}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Event Image (Optional)</label>
-              {imagePreview ? (
-                <div className="relative">
-                  <img src={imagePreview} alt="Preview" className="w-full h-40 object-cover rounded mb-2" />
-                  <button
-                    type="button"
-                    onClick={removeImage}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                  >
-                    <X size={16} />
-                  </button>
+      <Dialog open={open} onOpenChange={handleClose}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 border-none shadow-2xl">
+          <div className="bg-amura-purple px-6 py-4 rounded-t-lg">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-white">
+                {isEdit ? "Edit Event Details" : "Create New Event"}
+              </DialogTitle>
+            </DialogHeader>
+          </div>
+          
+          <form id="event-form" onSubmit={handleSubmit} className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Basic Info Column */}
+              <div className="space-y-5">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider">Event Details</label>
+                  <div className="space-y-4 pt-1">
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Event Name</label>
+                      <input
+                        type="text"
+                        name="title"
+                        value={form.title}
+                        onChange={handleChange}
+                        required
+                        placeholder="e.g., Spark Hackathon 2024"
+                        className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Date</label>
+                        <input
+                          type="date"
+                          name="date"
+                          value={form.date}
+                          onChange={handleChange}
+                          required
+                          className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Status</label>
+                        <select
+                          name="status"
+                          value={form.status}
+                          onChange={handleChange}
+                          className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
+                        >
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Max Registrations</label>
+                        <input
+                          type="number"
+                          name="max_participants"
+                          min={1}
+                          value={form.max_participants}
+                          onChange={handleChange}
+                          required
+                          className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Location</label>
+                        <input
+                          type="text"
+                          name="location"
+                          value={form.location || ""}
+                          onChange={handleChange}
+                          placeholder="e.g., Seminar Hall"
+                          className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Description</label>
+                      <textarea
+                        name="description"
+                        value={form.description || ""}
+                        onChange={handleChange}
+                        rows={4}
+                        placeholder="Tell participants what this event is about..."
+                        className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none resize-none"
+                      />
+                    </div>
+                  </div>
                 </div>
-              ) : null}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
+              </div>
+
+              {/* Media & Settings Column */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider">Visual & Hackathon Settings</label>
+                  <div className="pt-1">
+                    <label className="block text-xs font-medium mb-2 text-gray-500 uppercase">Event Banner</label>
+                    {imagePreview ? (
+                      <div className="relative group overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <img src={imagePreview} alt="Preview" className="w-full h-40 object-cover" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={removeImage}
+                            className="bg-white/20 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-red-500 transition-colors flex items-center gap-1"
+                          >
+                            <Trash2 size={14} /> Remove Image
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-full h-40 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl flex flex-col items-center justify-center text-gray-400 bg-gray-50/30 dark:bg-gray-900/30 group hover:border-amura-purple transition-colors">
+                        <Plus className="mb-2 opacity-50 group-hover:text-amura-purple" size={24} />
+                        <span className="text-xs uppercase font-semibold">Click to select image</span>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="mt-3 w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amura-purple/10 file:text-amura-purple hover:file:bg-amura-purple/20 cursor-pointer"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-800/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-700">
+                  <label className="flex items-center gap-3 cursor-pointer group mb-4">
+                    <div className="relative flex items-center">
+                      <input
+                        type="checkbox"
+                        name="is_hackathon"
+                        checked={form.is_hackathon || false}
+                        onChange={handleChange}
+                        className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 transition-all checked:bg-amura-purple checked:border-amura-purple"
+                      />
+                      <Plus className="absolute h-3.5 w-3.5 text-white opacity-0 peer-checked:opacity-100 left-0.5 pointer-events-none" />
+                    </div>
+                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200 group-hover:text-amura-purple transition-colors">Hackathon Event Configuration</span>
+                  </label>
+
+                  {form.is_hackathon && (
+                    <div className="space-y-5 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <div>
+                        <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Hackathon Type</label>
+                        <select
+                          name="hackathon_type"
+                          value={form.hackathon_type || ""}
+                          onChange={handleChange}
+                          className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-amura-purple"
+                        >
+                          <option value="">Select Type</option>
+                          <option value="competitive">Competitive</option>
+                          <option value="learning">Learning</option>
+                          <option value="collaborative">Collaborative</option>
+                        </select>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Min Team</label>
+                          <input
+                            type="number"
+                            name="team_min_size"
+                            value={form.team_min_size || 1}
+                            onChange={handleChange}
+                            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-amura-purple"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium mb-1 text-gray-500 uppercase">Max Team</label>
+                          <input
+                            type="number"
+                            name="team_max_size"
+                            value={form.team_max_size || 5}
+                            onChange={handleChange}
+                            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-amura-purple"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="block text-xs font-medium text-gray-500 uppercase">Problem Statements / Tracks</label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={newTrack}
+                            onChange={(e) => setNewTrack(e.target.value)}
+                            placeholder="e.g., HealthTech"
+                            className="flex-1 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-amura-purple"
+                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTrack())}
+                          />
+                          <button 
+                            type="button" 
+                            onClick={addTrack} 
+                            className="bg-amura-purple text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-amura-purple-dark transition-colors shadow-sm shadow-amura-purple/20"
+                          >
+                            Add
+                          </button>
+                        </div>
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {((form as any).tracks || []).map((track: string, index: number) => (
+                            <div key={index} className="bg-amura-purple/10 text-amura-purple border border-amura-purple/20 pl-3 pr-2 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 group animate-in zoom-in-75 duration-200">
+                              {track}
+                              <button type="button" onClick={() => removeTrack(index)} className="hover:bg-red-500 hover:text-white rounded-full p-0.5 transition-all">
+                                <X size={12} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
-              <textarea
-                name="description"
-                value={form.description || ""}
-                onChange={handleChange}
-                rows={3}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent"
-              />
+            
+            <div className="flex justify-end gap-3 pt-8 mt-4 border-t border-gray-100 dark:border-gray-700">
+              <Button type="button" variant="outline" onClick={handleClose} className="rounded-full px-6 border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
+                Cancel
+              </Button>
+              <Button type="submit" className="rounded-full px-8 bg-amura-purple text-white hover:bg-amura-purple-dark shadow-lg shadow-amura-purple/30 transition-all transform active:scale-95">
+                {loading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
+                {isEdit ? "Update Event" : "Create Event"}
+              </Button>
             </div>
           </form>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleClose} className="border-gray-300 text-gray-700 hover:bg-gray-100">Cancel</Button>
-            <Button type="submit" form="event-form" className="bg-amura-purple text-white hover:bg-amura-purple-dark" disabled={loading}>
-              {loading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
-              {isEdit ? "Save Changes" : "Save Event"}
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

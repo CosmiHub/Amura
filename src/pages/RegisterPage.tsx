@@ -39,11 +39,11 @@ export default function RegisterPage() {
           .from("events")
           .select("id, title, date, description")
           .order("date", { ascending: false });
-          
+
         if (error) {
           throw error;
         }
-        
+
         setEvents(data ?? []);
       } catch (error: any) {
         console.error("Error fetching events:", error);
@@ -73,7 +73,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <RegisterForm 
+        <RegisterForm
           user={user}
           authenticated={authenticated}
           userIsAdmin={userIsAdmin}

@@ -100,42 +100,164 @@ export type Database = {
       }
       events: {
         Row: {
+          allow_team_registration: boolean
           created_at: string
           creator_id: string | null
           date: string
           description: string | null
+          hackathon_type: string | null
           id: string
           image_url: string | null
+          is_hackathon: boolean
           location: string | null
           max_participants: number | null
           status: string | null
+          team_leader_preregistration: boolean
+          team_max_size: number
+          team_min_size: number
           title: string
         }
         Insert: {
+          allow_team_registration?: boolean
           created_at?: string
           creator_id?: string | null
           date: string
           description?: string | null
+          hackathon_type?: string | null
           id?: string
           image_url?: string | null
+          is_hackathon?: boolean
           location?: string | null
           max_participants?: number | null
           status?: string | null
+          team_leader_preregistration?: boolean
+          team_max_size?: number
+          team_min_size?: number
           title: string
         }
         Update: {
+          allow_team_registration?: boolean
           created_at?: string
           creator_id?: string | null
           date?: string
           description?: string | null
+          hackathon_type?: string | null
           id?: string
           image_url?: string | null
+          is_hackathon?: boolean
           location?: string | null
           max_participants?: number | null
           status?: string | null
+          team_leader_preregistration?: boolean
+          team_max_size?: number
+          team_min_size?: number
           title?: string
         }
         Relationships: []
+      }
+      team_members: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          id: string
+          joined_at: string
+          member_status: string
+          registration_id: string
+          role: string
+          team_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          id?: string
+          joined_at?: string
+          member_status?: string
+          registration_id: string
+          role?: string
+          team_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          id?: string
+          joined_at?: string
+          member_status?: string
+          registration_id?: string
+          role?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "registrations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          current_members: number
+          event_id: string
+          id: string
+          is_verified: boolean
+          join_code: string
+          max_members: number
+          status: string
+          team_description: string | null
+          team_idea: string | null
+          team_leader_id: string
+          team_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_members?: number
+          event_id: string
+          id?: string
+          is_verified?: boolean
+          join_code?: string
+          max_members?: number
+          status?: string
+          team_description?: string | null
+          team_idea?: string | null
+          team_leader_id: string
+          team_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_members?: number
+          event_id?: string
+          id?: string
+          is_verified?: boolean
+          join_code?: string
+          max_members?: number
+          status?: string
+          team_description?: string | null
+          team_idea?: string | null
+          team_leader_id?: string
+          team_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teams_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -161,8 +283,12 @@ export type Database = {
           department: string
           email: string
           event_id: string
+          hackathon_role: string | null
           id: string
           name: string
+          registration_mode: string
+          team_id: string | null
+          team_join_code_used: string | null
           user_id: string
           usn: string
           year: string
@@ -172,8 +298,12 @@ export type Database = {
           department: string
           email: string
           event_id: string
+          hackathon_role?: string | null
           id?: string
           name: string
+          registration_mode?: string
+          team_id?: string | null
+          team_join_code_used?: string | null
           user_id?: string
           usn: string
           year: string
@@ -183,8 +313,12 @@ export type Database = {
           department?: string
           email?: string
           event_id?: string
+          hackathon_role?: string | null
           id?: string
           name?: string
+          registration_mode?: string
+          team_id?: string | null
+          team_join_code_used?: string | null
           user_id?: string
           usn?: string
           year?: string
@@ -195,6 +329,13 @@ export type Database = {
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "registrations_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]

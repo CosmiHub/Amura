@@ -10,6 +10,7 @@ import { toast } from "@/components/ui/use-toast";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { EventManagement } from "@/components/dashboard/EventManagement";
 import { ActivityLog } from "@/components/dashboard/ActivityLog";
+import { TeamManagement } from "@/components/dashboard/TeamManagement";
 import { useState } from "react";
 
 export default function DashboardPage() {
@@ -70,7 +71,7 @@ export default function DashboardPage() {
             <nav className="px-2">
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`w-full text-left flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                className={`w-full text-left flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "overview"
                     ? "bg-amura-purple text-white"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -82,7 +83,7 @@ export default function DashboardPage() {
               
               <button
                 onClick={() => setActiveTab("events")}
-                className={`w-full text-left flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                className={`w-full text-left flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "events"
                     ? "bg-amura-purple text-white"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -94,7 +95,7 @@ export default function DashboardPage() {
               
               <button
                 onClick={() => setActiveTab("users")}
-                className={`w-full text-left flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                className={`w-full text-left flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "users"
                     ? "bg-amura-purple text-white"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -105,8 +106,20 @@ export default function DashboardPage() {
               </button>
               
               <button
+                onClick={() => setActiveTab("teams")}
+                className={`w-full text-left flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                  activeTab === "teams"
+                    ? "bg-amura-purple text-white"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                <Users className="mr-3 h-5 w-5" />
+                Hackathon Teams
+              </button>
+              
+              <button
                 onClick={() => setActiveTab("settings")}
-                className={`w-full text-left flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                className={`w-full text-left flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "settings"
                     ? "bg-amura-purple text-white"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -126,7 +139,7 @@ export default function DashboardPage() {
           </div>
         </div>
         
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-6 lg:p-10">
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
             <p className="text-gray-600 dark:text-gray-400">
@@ -144,6 +157,9 @@ export default function DashboardPage() {
                   <Calendar className="h-5 w-5" />
                 </TabsTrigger>
                 <TabsTrigger value="users">
+                  <Users className="h-5 w-5" />
+                </TabsTrigger>
+                <TabsTrigger value="teams">
                   <Users className="h-5 w-5" />
                 </TabsTrigger>
                 <TabsTrigger value="settings">
@@ -203,6 +219,8 @@ export default function DashboardPage() {
                 </div>
               </div>
             )}
+
+            {activeTab === "teams" && <TeamManagement />}
           </div>
         </div>
       </div>
