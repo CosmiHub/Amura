@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
+import * as XLSX from "xlsx";
 import { 
   Table, 
   TableBody, 
@@ -20,9 +22,10 @@ import {
   DialogFooter 
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
-import { Search, Eye, CheckCircle, XCircle, Loader2, Users } from "lucide-react";
+import { Search, Eye, CheckCircle, XCircle, Loader2, Users, Download, Trash2 } from "lucide-react";
 
 export function TeamManagement() {
+  const { isAdmin } = useAuth();
   const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -93,6 +96,113 @@ export function TeamManagement() {
     }
   };
 
+  const handleDeleteTeam = async (teamId: string) => {
+    if (!confirm("Are you sure you want to delete this team? This will delete all team members and registrations as well.")) {
+      return;
+    }
+
+    setActionLoading(true);
+    try {
+      // 1. Delete team members
+      const { error: membersError } = await supabase
+        .from("team_members")
+        .delete()
+        .eq("team_id", teamId);
+      
+      if (membersError) throw membersError;
+
+      // 2. Delete registrations for this team
+      const { error: regsError } = await supabase
+        .from("registrations")
+        .delete()
+        .eq("team_id", teamId);
+      
+      if (regsError) throw regsError;
+
+      // 3. Finally delete the team itself
+      const { error: teamError } = await supabase
+        .from("teams")
+        .delete()
+        .eq("id", teamId);
+      
+      if (teamError) throw teamError;
+
+      toast({
+        title: "Team Deleted",
+        description: "The team and all its data have been removed.",
+      });
+      
+      setShowDetails(false);
+      fetchTeams();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete team",
+        variant: "destructive",
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleExportExcel = () => {
+    const verifiedTeams = teams.filter(t => t.is_verified);
+    if (verifiedTeams.length === 0) {
+      toast({
+        title: "No data",
+        description: "There are no verified teams to export.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const exportData: any[] = [];
+
+    verifiedTeams.forEach(team => {
+      const eventName = team.events?.title || "N/A";
+      const teamName = team.team_name;
+      const joinCode = team.join_code;
+      const teamIdea = team.team_idea ? `"${team.team_idea.replace(/"/g, '""')}"` : "N/A";
+
+      if (team.team_members && team.team_members.length > 0) {
+        team.team_members.forEach((member: any) => {
+          exportData.push({
+            "Event": eventName,
+            "Team Name": teamName,
+            "Join Code": joinCode,
+            "Team Idea": teamIdea,
+            "Member Name": member.registrations?.name || "N/A",
+            "Member USN": member.registrations?.usn || "N/A",
+            "Member Role": member.role,
+            "Member Department": member.registrations?.department || "N/A"
+          });
+        });
+      } else {
+        exportData.push({
+          "Event": eventName,
+          "Team Name": teamName,
+          "Join Code": joinCode,
+          "Team Idea": teamIdea,
+          "Member Name": "N/A",
+          "Member USN": "N/A",
+          "Member Role": "N/A",
+          "Member Department": "N/A"
+        });
+      }
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Verified Teams");
+
+    XLSX.writeFile(workbook, `verified_teams_export_${new Date().toISOString().split('T')[0]}.xlsx`);
+    
+    toast({
+      title: "Export Successful",
+      description: `Exported ${verifiedTeams.length} verified teams to Excel.`,
+    });
+  };
+
   const filteredTeams = teams.filter(team => 
     team.team_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     team.events?.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,14 +213,25 @@ export function TeamManagement() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Hackathon Teams</h3>
-        <div className="relative w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Search teams, events, or codes..." 
-            className="pl-10"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="flex items-center gap-3">
+          <div className="relative w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input 
+              placeholder="Search teams, events, or codes..." 
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          {isAdmin && isAdmin() && (
+            <Button 
+              onClick={handleExportExcel} 
+              variant="outline" 
+              className="flex items-center gap-2 border-amura-purple text-amura-purple hover:bg-amura-purple hover:text-white"
+            >
+              <Download className="h-4 w-4" /> Export Verified
+            </Button>
+          )}
         </div>
       </div>
 
@@ -253,27 +374,40 @@ export function TeamManagement() {
             </div>
           )}
 
-          <DialogFooter className="gap-2">
-            {!selectedTeam?.is_verified ? (
-              <Button 
-                className="bg-green-600 hover:bg-green-700 text-white"
-                onClick={() => handleVerifyTeam(selectedTeam.id, true)}
-                disabled={actionLoading}
-              >
-                {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}
-                Verify Team
-              </Button>
-            ) : (
-              <Button 
-                variant="destructive"
-                onClick={() => handleVerifyTeam(selectedTeam.id, false)}
-                disabled={actionLoading}
-              >
-                {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <XCircle className="h-4 w-4 mr-2" />}
-                Unverify Team
-              </Button>
-            )}
-            <Button variant="outline" onClick={() => setShowDetails(false)}>Close</Button>
+          <DialogFooter className="flex flex-col sm:flex-row justify-between gap-2">
+            <Button
+              variant="destructive"
+              onClick={() => handleDeleteTeam(selectedTeam.id)}
+              disabled={actionLoading}
+              className="flex items-center gap-2"
+            >
+              {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Delete Team
+            </Button>
+            
+            <div className="flex gap-2">
+              {!selectedTeam?.is_verified ? (
+                <Button 
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => handleVerifyTeam(selectedTeam.id, true)}
+                  disabled={actionLoading}
+                >
+                  {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}
+                  Verify Team
+                </Button>
+              ) : (
+                <Button 
+                  variant="outline"
+                  onClick={() => handleVerifyTeam(selectedTeam.id, false)}
+                  disabled={actionLoading}
+                  className="text-red-600 border-red-200 hover:bg-red-50"
+                >
+                  {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <XCircle className="h-4 w-4 mr-2" />}
+                  Unverify Team
+                </Button>
+              )}
+              <Button variant="outline" onClick={() => setShowDetails(false)}>Close</Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>

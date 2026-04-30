@@ -41,6 +41,9 @@ export function TeamDashboard({ teamId, isTeamLeader }: TeamDashboardProps) {
         if (actualCount !== teamData.current_members) {
           console.log(`Syncing team count: ${teamData.current_members} -> ${actualCount}`);
           await updateTeam(teamId, { current_members: actualCount });
+          // Refresh to show correct count
+          const updatedData = await getTeamWithDetails(teamId);
+          setTeam(updatedData);
         }
       }
     } catch (error) {

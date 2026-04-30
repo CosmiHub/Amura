@@ -87,16 +87,16 @@ const coreTeam: TeamMember[] = [
     }
   },
   {
-    name: "S Ujjwal Gowda",
-    role: "Technical Lead",
-    image: "/assets/ujjwal.png",
+    name: "Anagha MR",
+    role: "DMC Head",
+    image: "/assets/anagha.jpeg",
     department: "CSE(AI & ML)",
-    bio: "Ujjwal manages administrative tasks and documentation. He's passionate about AIML and has organized several workshops.",
-    skills: ["AIML", "Web development", "Public speaking", "Python"],
+    bio: "Anagha manages poster designing,social media handling. She's passionate about AIML.",
+    skills: ["AIML", "Poster Designing", "Social Media Handling", "Python"],
     social: {
-      linkedin: "https://www.linkedin.com/in/s-ujjwal-gowda",
-      github: "https://github.com/ujjwal1509",
-      email: "sujjwalgowda23aiml@rnsit.ac.in"
+      linkedin: "https://www.linkedin.com/in/anagha-m-r-70b969276/",
+      github: "https://github.com/Anagha-mr",
+      email: "anaghamr23aiml@rnsit.ac.in"
     }
   }
 ];

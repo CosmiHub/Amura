@@ -21,6 +21,12 @@ interface TeamMemberRegistrationProps {
   eventId: string;
   onSuccess?: (registrationData: any) => void;
   onCancel?: () => void;
+  initialData?: {
+    name?: string;
+    usn?: string;
+    department?: string;
+    year?: string;
+  };
 }
 
 
@@ -28,6 +34,7 @@ export function TeamMemberRegistration({
   eventId,
   onSuccess,
   onCancel,
+  initialData,
 }: TeamMemberRegistrationProps) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -37,19 +44,19 @@ export function TeamMemberRegistration({
   const [teamData, setTeamData] = useState<any>(null);
   const [validatingCode, setValidatingCode] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    usn: "",
+    name: initialData?.name || "",
+    usn: initialData?.usn || "",
     email: "",
-    department: "",
-    year: "",
+    department: initialData?.department || "",
+    year: initialData?.year || "",
   });
 
   useEffect(() => {
     if (user) {
       setFormData(prev => ({
         ...prev,
-        email: user.email || "",
-        name: 'username' in user ? (user.username || "") : (user.user_metadata?.full_name || "")
+        email: prev.email || user.email || "",
+        name: prev.name || (('username' in user ? (user.username || "") : (user.user_metadata?.full_name || "")))
       }));
 
       const fetchLastRegistration = async () => {
@@ -64,10 +71,10 @@ export function TeamMemberRegistration({
         if (data && !error) {
           setFormData(prev => ({
             ...prev,
-            name: data.name || prev.name,
-            usn: data.usn || "",
-            department: data.department || "",
-            year: data.year || "",
+            name: prev.name || data.name || "",
+            usn: prev.usn || data.usn || "",
+            department: prev.department || data.department || "",
+            year: prev.year || data.year || "",
           }));
         }
       };
@@ -394,11 +401,11 @@ export function TeamMemberRegistration({
                   setTeamCode("");
                   setTeamData(null);
                   setFormData({
-                    name: "",
-                    usn: "",
-                    email: "",
-                    department: "",
-                    year: "",
+                    name: initialData?.name || "",
+                    usn: initialData?.usn || "",
+                    email: user?.email || "",
+                    department: initialData?.department || "",
+                    year: initialData?.year || "",
                   });
                 }}
                 disabled={loading}

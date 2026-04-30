@@ -23,6 +23,12 @@ interface TeamLeaderRegistrationProps {
   teamMaxSize: number;
   onSuccess?: (teamData: any) => void;
   onCancel?: () => void;
+  initialData?: {
+    name?: string;
+    usn?: string;
+    department?: string;
+    year?: string;
+  };
 }
 
 
@@ -32,20 +38,21 @@ export function TeamLeaderRegistration({
   teamMaxSize,
   onSuccess,
   onCancel,
+  initialData,
 }: TeamLeaderRegistrationProps) {
   const { user } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [showTeamCode, setShowTeamCode] = useState(false);
   const [generatedCode, setGeneratedCode] = useState("");
-  const [eventTracks, setEventTracks] = useState<string[]>([]);
+
 
   const [formData, setFormData] = useState({
-    name: "",
-    usn: "",
+    name: initialData?.name || "",
+    usn: initialData?.usn || "",
     email: "",
-    department: "",
-    year: "",
+    department: initialData?.department || "",
+    year: initialData?.year || "",
     teamName: "",
     teamDescription: "",
     teamIdea: "",
@@ -55,8 +62,8 @@ export function TeamLeaderRegistration({
     if (user) {
       setFormData(prev => ({
         ...prev,
-        email: user.email || "",
-        name: 'username' in user ? (user.username || "") : (user.user_metadata?.full_name || "")
+        email: prev.email || user.email || "",
+        name: prev.name || ('username' in user ? (user.username || "") : (user.user_metadata?.full_name || ""))
       }));
 
       // Try to fetch existing registration data to pre-fill other fields
@@ -72,33 +79,16 @@ export function TeamLeaderRegistration({
         if (data && !error) {
           setFormData(prev => ({
             ...prev,
-            name: data.name || prev.name,
-            usn: data.usn || "",
-            department: data.department || "",
-            year: data.year || "",
+            name: prev.name || data.name || "",
+            usn: prev.usn || data.usn || "",
+            department: prev.department || data.department || "",
+            year: prev.year || data.year || "",
           }));
         }
       };
 
-      // Fetch event tracks
-      const fetchEventTracks = async () => {
-        const { data, error } = await supabase
-          .from("events")
-          .select("tracks")
-          .eq("id", eventId)
-          .single();
-
-        if (data && !error && data.tracks) {
-          setEventTracks(data.tracks);
-          // Auto-select first track if only one exists
-          if (data.tracks.length === 1) {
-            setFormData(prev => ({ ...prev, teamIdea: data.tracks[0] }));
-          }
-        }
-      };
 
       fetchLastRegistration();
-      fetchEventTracks();
     }
   }, [user, eventId]);
 
@@ -174,7 +164,7 @@ export function TeamLeaderRegistration({
     } catch (error: any) {
       console.error("Registration error:", error);
       let errorMsg = error.message || error.details || "Registration failed.";
-      
+
       if (errorMsg.includes("registrations_event_id_usn_key")) {
         errorMsg = "This USN is already registered for this event. Please check 'My Teams' or use a different USN.";
       } else if (!error.message && !error.details) {
@@ -369,6 +359,7 @@ export function TeamLeaderRegistration({
                 />
               </div>
 
+              {/* 
               <div>
                 <Label htmlFor="teamIdea">Select Hackathon Track / Problem Statement *</Label>
                 {eventTracks.length > 0 ? (
@@ -404,6 +395,7 @@ export function TeamLeaderRegistration({
                   </p>
                 )}
               </div>
+              */}
 
               <div className="bg-muted p-3 rounded-lg">
                 <p className="text-sm">

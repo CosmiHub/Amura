@@ -11,6 +11,12 @@ interface HackathonRegistrationProps {
   teamMaxSize: number;
   onSuccess?: (data: any) => void;
   onCancel?: () => void;
+  initialData?: {
+    name?: string;
+    usn?: string;
+    department?: string;
+    year?: string;
+  };
 }
 
 export function HackathonRegistration({
@@ -19,6 +25,7 @@ export function HackathonRegistration({
   teamMaxSize,
   onSuccess,
   onCancel,
+  initialData,
 }: HackathonRegistrationProps) {
   const [mode, setMode] = useState<
     "choice" | "team-leader" | "team-member"
@@ -35,6 +42,7 @@ export function HackathonRegistration({
           setMode("choice");
         }}
         onCancel={() => setMode("choice")}
+        initialData={initialData}
       />
     );
   }
@@ -48,6 +56,7 @@ export function HackathonRegistration({
           setMode("choice");
         }}
         onCancel={() => setMode("choice")}
+        initialData={initialData}
       />
     );
   }

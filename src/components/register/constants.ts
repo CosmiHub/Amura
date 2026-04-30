@@ -1,12 +1,12 @@
 
 export const departments = [
-  "CSE",
-  "ISE",
-  "CSE AIML",
-  "CSE DS",
-  "AI&DS",
-  "ECE",
-  "CSE CY",
+  // "CSE",
+  // "ISE",
+  "CSE(AI & ML)",
+  // "CSE(DS)",
+  // "AIDS",
+  // "ECE",
+  // "CSE(CY)",
 ];
 
 export const years = [

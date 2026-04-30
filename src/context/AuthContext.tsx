@@ -91,7 +91,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     
     // Otherwise sign out from Supabase
     console.log("Signing out regular user");
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut({ scope: 'local' });
+    } catch (error) {
+      console.error("Supabase signOut error:", error);
+    } finally {
+      setSession(null);
+      setUser(null);
+    }
   };
 
   const isAdmin = (): boolean => {

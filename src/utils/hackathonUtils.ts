@@ -291,6 +291,13 @@ export async function registerAsTeamLeader(
 
   if (regError) throw regError;
 
+    // Fetch event details to get max_members
+    const { data: eventData } = await supabase
+      .from("events")
+      .select("team_max_size")
+      .eq("id", eventId)
+      .single();
+
     // Create team
     const { data: team, error: teamError } = await supabase
       .from("teams")
@@ -303,6 +310,7 @@ export async function registerAsTeamLeader(
           team_idea: teamIdea || null,
           join_code: generateJoinCode(),
           current_members: 1, // Explicitly start with 1 (the leader)
+          max_members: eventData?.team_max_size || 6,
         },
       ])
       .select()

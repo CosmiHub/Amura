@@ -116,7 +116,7 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
           .eq("event_id", id)
           .eq("user_id", user.id)
           .maybeSingle();
-        
+
         setAlreadyRegistered(!!existingReg);
       } else {
         setAlreadyRegistered(false);
@@ -305,8 +305,14 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
       {isHackathonEvent && selectedEventData && !alreadyRegistered && (
         <HackathonRegistration
           eventId={formData.eventId}
-          teamMinSize={selectedEventData.team_min_size || 1}
-          teamMaxSize={selectedEventData.team_max_size || 5}
+          teamMinSize={selectedEventData.team_min_size}
+          teamMaxSize={selectedEventData.team_max_size}
+          initialData={{
+            name: formData.name,
+            usn: formData.usn,
+            department: formData.department,
+            year: formData.year,
+          }}
           onSuccess={() => {
             toast({
               title: "Success!",
@@ -343,20 +349,20 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
           <div className="ml-2">
             <AlertTitle className="text-amber-800 dark:text-amber-200 font-bold">Already Registered!</AlertTitle>
             <AlertDescription className="text-amber-700 dark:text-amber-300">
-              You have already registered for <strong>{selectedEventData?.title}</strong>. 
+              You have already registered for <strong>{selectedEventData?.title}</strong>.
               <div className="mt-3 flex items-center gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
-                  onClick={() => navigate("/my-teams")} 
+                  onClick={() => navigate("/my-teams")}
                   className="bg-white border-amber-200 hover:bg-amber-100 text-amber-800"
                 >
                   View My Teams
                 </Button>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="sm"
-                  onClick={() => setFormData(prev => ({ ...prev, eventId: "" }))} 
+                  onClick={() => setFormData(prev => ({ ...prev, eventId: "" }))}
                   className="text-amber-600"
                 >
                   Select Another Event

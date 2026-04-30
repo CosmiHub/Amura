@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, X } from "lucide-react";
+import { Plus, Edit, Trash2, X, Download, Loader2, Eye } from "lucide-react";
+import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTitle, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { toast } from "@/components/ui/use-toast";
-import { Loader2, Eye } from "lucide-react";
 
 type Event = Database["public"]["Tables"]["events"]["Row"];
 type EventInsert = Database["public"]["Tables"]["events"]["Insert"];
@@ -35,7 +35,7 @@ export const EventManagement = () => {
     is_hackathon: false,
     hackathon_type: null,
     team_min_size: 1,
-    team_max_size: 5,
+    team_max_size: 6,
     allow_team_registration: false,
     team_leader_preregistration: false,
     tracks: [],
@@ -86,7 +86,7 @@ export const EventManagement = () => {
         is_hackathon: event.is_hackathon || false,
         hackathon_type: event.hackathon_type || null,
         team_min_size: event.team_min_size || 1,
-        team_max_size: event.team_max_size || 5,
+        team_max_size: event.team_max_size || 6,
         allow_team_registration: event.allow_team_registration || false,
         team_leader_preregistration: event.team_leader_preregistration || false,
         tracks: (event as any).tracks || [],
@@ -109,7 +109,7 @@ export const EventManagement = () => {
         is_hackathon: false,
         hackathon_type: null,
         team_min_size: 1,
-        team_max_size: 5,
+        team_max_size: 6,
         allow_team_registration: false,
         team_leader_preregistration: false,
         tracks: [],
@@ -299,6 +299,42 @@ export const EventManagement = () => {
       });
     }
     setLoading(false);
+  };
+
+  const handleExportRegistrations = () => {
+    if (viewingRegistrations.length === 0) return;
+
+    const dataToExport = viewingRegistrations.map((reg) => ({
+      Name: reg.name,
+      USN: reg.usn,
+      Email: reg.email,
+      Department: reg.department,
+      Year: reg.year,
+      "Registration Date": new Date(reg.created_at).toLocaleDateString(),
+      "Mode": reg.registration_mode || "Direct"
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+
+    // Auto-size columns
+    worksheet["!cols"] = [
+      { wch: 25 },
+      { wch: 15 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 15 }
+    ];
+
+    XLSX.writeFile(workbook, `${selectedEventTitle.replace(/\s+/g, "_")}_Registrations.xlsx`);
+    
+    toast({
+      title: "Export Success",
+      description: `Data for ${selectedEventTitle} exported to Excel.`,
+    });
   };
 
   return (
@@ -493,7 +529,7 @@ export const EventManagement = () => {
                           <input
                             type="number"
                             name="team_max_size"
-                            value={form.team_max_size || 5}
+                            value={form.team_max_size || 6}
                             onChange={handleChange}
                             className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-amura-purple"
                           />
@@ -582,7 +618,15 @@ export const EventManagement = () => {
               </table>
             </div>
           )}
-          <DialogFooter>
+          <DialogFooter className="flex justify-between items-center sm:justify-between">
+            <Button 
+              variant="outline" 
+              onClick={handleExportRegistrations}
+              disabled={viewingRegistrations.length === 0}
+              className="flex items-center gap-2 border-amura-purple text-amura-purple hover:bg-amura-purple/10"
+            >
+              <Download size={16} /> Export to Excel
+            </Button>
             <Button onClick={() => setShowRegistrations(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
