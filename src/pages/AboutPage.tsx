@@ -48,21 +48,21 @@ const coreTeam: TeamMember[] = [
     }
   },
   {
-    name: "Sumit Raj",
+    name: "Noti Gayatri",
     role: "Technical Head",
-    image: "/assets/sumit.png",
+    image: "/assets/gayatri.jpg",
     department: "CSE(AI & ML)",
-    bio: "Sumit manages the technical aspects of all club projects. He's an experienced full-stack developer with expertise in cloud architecture.",
-    skills: ["Full Stack", "Cloud Computing", "DevOps", "AI"],
+    bio: "Noti Gayatri manages the technical aspects of all club events. She's an experienced backend developer with expertise in AI and ML.",
+    skills: ["Backend Development", "AI & ML", "Python", "Java"],
     social: {
-      linkedin: "https://www.linkedin.com/in/sumit-raj-7134002a3/",
-      github: "https://github.com/sumits-cosmos",
-      email: "uvcosmos2@gmail.com"
+      linkedin: "https://www.linkedin.com/in/noti-gayatri-4610002a7",
+      github: "https://github.com/notigayatri",
+      email: "notigayatri23aiml@rnsit.ac.in"
     }
   },
   {
     name: "Varsheta Ganesh",
-    role: "Events Coordinator",
+    role: "Events Head",
     image: "/assets/varsheta.jpeg",
     department: "CSE(AI & ML)",
     bio: "Varsheta plans and coordinates all club events, workshops and hackathons. She specializes in IoT and web development.",
@@ -75,7 +75,7 @@ const coreTeam: TeamMember[] = [
   },
   {
     name: "Suhana Vijay ",
-    role: "Marketing Lead",
+    role: "Marketing Head",
     image: "/assets/suhana.jpeg",
     department: "CSE(AI & ML)",
     bio: "Suhana handles all promotional activities and social media presence for the club. She's also skilled in UI/UX design.",
