@@ -85,6 +85,11 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
   useEffect(() => {
     if (formData.eventId) {
       fetchEventDetails(formData.eventId);
+    } else {
+      setSelectedEventData(null);
+      setIsHackathonEvent(false);
+      setAlreadyRegistered(false);
+      setSelectedEventCount(0);
     }
   }, [formData.eventId]);
 
@@ -301,8 +306,31 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
           </AlertDescription>
         </Alert>
       )}
-      {/* Show Hackathon Registration if event is hackathon */}
-      {isHackathonEvent && selectedEventData && !alreadyRegistered && (
+      {selectedEventData && selectedEventData.status !== "active" && !alreadyRegistered && (
+        <Alert variant="destructive" className="mb-6 animate-in fade-in zoom-in duration-300 bg-red-50 border-red-200">
+          <AlertCircle className="h-5 w-5 text-red-600" />
+          <div>
+            <AlertTitle className="font-bold text-red-600">Registrations Closed</AlertTitle>
+            <AlertDescription className="text-gray-900 mt-1">
+              Registrations for <strong>{selectedEventData.title}</strong> are currently closed by the administrator. 
+              Please select another event.
+            </AlertDescription>
+            <div className="mt-3">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setFormData(prev => ({ ...prev, eventId: "" }))}
+                className="bg-white text-gray-700 hover:bg-gray-50 border-gray-200 shadow-sm"
+              >
+                Select Another Event
+              </Button>
+            </div>
+          </div>
+        </Alert>
+      )}
+
+      {/* Show Hackathon Registration if event is hackathon and active */}
+      {isHackathonEvent && selectedEventData && selectedEventData.status === "active" && !alreadyRegistered && (
         <HackathonRegistration
           eventId={formData.eventId}
           teamMinSize={selectedEventData.team_min_size}
@@ -405,11 +433,12 @@ export function RegisterForm({ user, authenticated, userIsAdmin, events, eventsL
           <CardFooter>
             <Button
               className="w-full btn-primary"
-              disabled={formLoading || !authenticated || countLoading || (!!selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number))}
+              disabled={formLoading || !authenticated || countLoading || (!!selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number)) || selectedEventData?.status !== "active"}
               onClick={handleSubmit}
             >
               {formLoading ? "Registering..." :
-                (selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number) ? "Registration Full" : "Register Now")}
+                (selectedEventData?.max_participants && selectedEventCount >= (selectedEventData.max_participants as number) ? "Registration Full" : 
+                (selectedEventData?.status !== "active" ? "Registrations Closed" : "Register Now"))}
             </Button>
           </CardFooter>
         </Card>

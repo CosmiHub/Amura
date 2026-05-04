@@ -157,6 +157,12 @@ export const EventRegistration: React.FC<EventRegistrationProps> = ({
               </div>
             )}
 
+            {eventData?.status !== "active" && !message && (
+              <div className="p-3 rounded mb-4 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                Registrations for this event are currently closed.
+              </div>
+            )}
+
             {message && (
               <div
                 className={`p-3 rounded mb-4 ${
@@ -267,9 +273,9 @@ export const EventRegistration: React.FC<EventRegistrationProps> = ({
               type="submit"
               form="registration-form"
               className="bg-amura-purple text-white hover:bg-amura-purple-dark"
-              disabled={loading || (!!eventData?.max_participants && currentCount >= eventData.max_participants)}
+              disabled={loading || (!!eventData?.max_participants && currentCount >= eventData.max_participants) || eventData?.status !== "active"}
             >
-              {loading ? "Processing..." : (eventData?.max_participants && currentCount >= eventData.max_participants ? "Registration Full" : "Submit Registration")}
+              {loading ? "Processing..." : (eventData?.status !== "active" ? "Registrations Closed" : (eventData?.max_participants && currentCount >= eventData.max_participants ? "Registration Full" : "Submit Registration"))}
             </Button>
           </DialogFooter>
         </DialogContent>

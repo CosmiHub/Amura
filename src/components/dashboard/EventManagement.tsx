@@ -401,7 +401,7 @@ export const EventManagement = () => {
                           className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-amura-purple focus:border-transparent transition-all outline-none"
                         >
                           <option value="active">Active</option>
-                          <option value="inactive">Inactive</option>
+                          <option value="completed">Inactive</option>
                         </select>
                       </div>
                     </div>

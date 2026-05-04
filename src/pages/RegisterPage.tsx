@@ -37,7 +37,8 @@ export default function RegisterPage() {
       try {
         const { data, error } = await supabase
           .from("events")
-          .select("id, title, date, description")
+          .select("id, title, date, description, status")
+          .eq("status", "active")
           .order("date", { ascending: false });
 
         if (error) {
